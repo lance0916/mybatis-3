@@ -14,14 +14,19 @@
 --    limitations under the License.
 --
 
-drop table users if exists;
+DROP TABLE users IF EXISTS;
 
-create table users (
-  id int,
-  name varchar(20)
+CREATE TABLE users
+(
+    id   INT,
+    name VARCHAR(20)
 );
 
-insert into users (id, name) values((select count(*) + 1 from users), 'User1');
-insert into users (id, name) values((select count(*) + 1 from users), 'User1 HSQL');
-insert into users (id, name) values((select count(*) + 1 from users), 'User1 DERBY');
-insert into users (id, name) values((select count(*) + 1 from users), 'User1 DEFAULT');
+INSERT INTO users (id, name)
+VALUES ((SELECT COUNT(*) + 1 FROM users), 'User1');
+INSERT INTO users (id, name)
+VALUES ((SELECT COUNT(*) + 1 FROM users), 'User1 HSQL');
+INSERT INTO users (id, name)
+VALUES ((SELECT COUNT(*) + 1 FROM users), 'User1 DERBY');
+INSERT INTO users (id, name)
+VALUES ((SELECT COUNT(*) + 1 FROM users), 'User1 DEFAULT');

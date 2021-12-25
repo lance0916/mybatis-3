@@ -19,7 +19,7 @@ import org.apache.ibatis.annotations.Select;
 
 public interface Mapper {
 
-  @Select("select id, owner, members from groups where id=1")
-  Group getGroup();
+    @Select("SELECT id, owner, members FROM groups WHERE id=1")
+    Group getGroup();
 
 }

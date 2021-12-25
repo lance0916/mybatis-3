@@ -14,31 +14,38 @@
 --    limitations under the License.
 --
 
-drop table product_sku if exists;
-drop table product_info if exists;
-drop table product if exists;
+DROP TABLE product_sku IF EXISTS;
+DROP TABLE product_info IF EXISTS;
+DROP TABLE product IF EXISTS;
 
-create table product (
-  id varchar(32) not null,
-  code varchar(80) not null,
-  name varchar(240) not null
+CREATE TABLE product
+(
+    id   VARCHAR(32)  NOT NULL,
+    code VARCHAR(80)  NOT NULL,
+    name VARCHAR(240) NOT NULL
 );
 
-create table product_sku (
-  id varchar(32) not null,
-  product_id varchar(32) not null,
-  code varchar(80) not null,
-  color varchar(40),
-  size varchar(40)
+CREATE TABLE product_sku
+(
+    id         VARCHAR(32) NOT NULL,
+    product_id VARCHAR(32) NOT NULL,
+    code       VARCHAR(80) NOT NULL,
+    color      VARCHAR(40),
+    size       VARCHAR(40)
 );
 
-create table product_info (
-  id int  not null,
-  product_id varchar(32) not null,
-  other_info varchar(240)
+CREATE TABLE product_info
+(
+    id         INT         NOT NULL,
+    product_id VARCHAR(32) NOT NULL,
+    other_info VARCHAR(240)
 );
 
-insert into product(id, code, name) values('10000000000000000000000000000001', 'P001', 'Product 001');
-insert into product_sku(id ,product_id, code, color, size) values('20000000000000000000000000000001', '10000000000000000000000000000001', 'S001', 'red', '80');
-insert into product_sku(id ,product_id, code, color, size) values('20000000000000000000000000000002', '10000000000000000000000000000001', 'S001', 'blue', '10');
-insert into product_info(id, product_id, other_info) values(1, '10000000000000000000000000000001', 'Sale 50% Off');
+INSERT INTO product(id, code, name)
+VALUES ('10000000000000000000000000000001', 'P001', 'Product 001');
+INSERT INTO product_sku(id, product_id, code, color, size)
+VALUES ('20000000000000000000000000000001', '10000000000000000000000000000001', 'S001', 'red', '80');
+INSERT INTO product_sku(id, product_id, code, color, size)
+VALUES ('20000000000000000000000000000002', '10000000000000000000000000000001', 'S001', 'blue', '10');
+INSERT INTO product_info(id, product_id, other_info)
+VALUES (1, '10000000000000000000000000000001', 'Sale 50% Off');

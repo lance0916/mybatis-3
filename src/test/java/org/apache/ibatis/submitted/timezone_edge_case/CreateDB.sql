@@ -14,13 +14,14 @@
 --    limitations under the License.
 --
 
-drop table records if exists;
+DROP TABLE records IF EXISTS;
 
-create table records (
-  id int,
-  ts timestamp(9),
-  d date
+CREATE TABLE records
+(
+    id INT,
+    ts TIMESTAMP(9),
+    d  DATE
 );
 
-insert into records (id, ts, d) values
-(1, '2019-03-10 02:30:00', '2011-12-30');
+INSERT INTO records (id, ts, d)
+VALUES (1, '2019-03-10 02:30:00', '2011-12-30');

@@ -15,25 +15,25 @@
  */
 package org.apache.ibatis.submitted.parametrizedlist;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+import java.util.Map;
+
 public interface Mapper {
 
-  @Select("select id, name from users")
-  List<User<String>> getAListOfUsers();
+    @Select("SELECT id, name FROM users")
+    List<User<String>> getAListOfUsers();
 
-  @Select("select id, name from users")
-  @MapKey("id")
-  Map<Integer, User<String>> getAMapOfUsers();
+    @Select("SELECT id, name FROM users")
+    @MapKey("id")
+    Map<Integer, User<String>> getAMapOfUsers();
 
-  @Select("select id, name from users where id=1")
-  Map<String, Object> getUserAsAMap();
+    @Select("SELECT id, name FROM users WHERE id=1")
+    Map<String, Object> getUserAsAMap();
 
-  @Select("select id, name from users")
-  List<Map<String, Object>> getAListOfMaps();
+    @Select("SELECT id, name FROM users")
+    List<Map<String, Object>> getAListOfMaps();
 
 }

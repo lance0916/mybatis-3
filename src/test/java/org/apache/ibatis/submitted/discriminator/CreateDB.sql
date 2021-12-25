@@ -14,28 +14,30 @@
 --    limitations under the License.
 --
 
-drop table vehicle if exists;
-drop table owner if exists;
+DROP TABLE vehicle IF EXISTS;
+DROP TABLE owner IF EXISTS;
 
-create table vehicle (
-  id int,
-  maker varchar(20),
-  vehicle_type int,
-  door_count int,
-  carrying_capacity float
+CREATE TABLE vehicle
+(
+    id                INT,
+    maker             VARCHAR(20),
+    vehicle_type      INT,
+    door_count        INT,
+    carrying_capacity FLOAT
 );
 
-insert into vehicle (id, maker, vehicle_type, door_count, carrying_capacity) values
-(1, 'Maker1', 1, 5, null),
-(2, 'Maker2', 2, null, 1.5);
+INSERT INTO vehicle (id, maker, vehicle_type, door_count, carrying_capacity)
+VALUES (1, 'Maker1', 1, 5, NULL),
+       (2, 'Maker2', 2, NULL, 1.5);
 
-create table owner (
-    id int,
-    name varchar(20),
-    vehicle_type varchar(20),
-    vehicle_id int
+CREATE TABLE owner
+(
+    id           INT,
+    name         VARCHAR(20),
+    vehicle_type VARCHAR(20),
+    vehicle_id   INT
 );
 
-insert into owner (id, name, vehicle_type, vehicle_id) values
-(1, 'Owner1', 'truck', 2),
-(2, 'Owner2', 'car', 1);
+INSERT INTO owner (id, name, vehicle_type, vehicle_id)
+VALUES (1, 'Owner1', 'truck', 2),
+       (2, 'Owner2', 'car', 1);

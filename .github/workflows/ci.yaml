@@ -16,16 +16,16 @@
 
 name: Java CI
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        java: [8, 11, 17, 18-ea]
-        distribution: ['zulu']
+        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+        java: [ 8, 11, 17, 18-ea ]
+        distribution: [ 'zulu' ]
       fail-fast: false
       max-parallel: 4
     name: Test JDK ${{ matrix.java }}, ${{ matrix.os }}
@@ -58,7 +58,7 @@ jobs:
         run: echo 'ENV_GITHUB="-Denv.GITHUB"' >> $GITHUB_ENV
       - name: Test with Maven
         if: ${{ matrix.os != 'windows-latest' }}
-        run: ./mvnw test -B -D"license.skip=true" -D"jacoco.skip=true" $ENV_GITHUB $ARG_LINE 
+        run: ./mvnw test -B -D"license.skip=true" -D"jacoco.skip=true" $ENV_GITHUB $ARG_LINE
       - name: Test with Maven
         if: ${{ matrix.os == 'windows-latest' && (matrix.java == '8')}}
         run: ./mvnw test -B -D"license.skip=true" -D"jacoco.skip=true"

@@ -20,80 +20,91 @@ CREATE SCHEMA mbtest;
 
 CREATE TABLE mbtest.order_detail
 (
-  order_id integer NOT NULL,
-  line_number integer NOT NULL,
-  quantity integer NOT NULL,
-  item_description character varying(50) NOT NULL,
-  CONSTRAINT order_detail_pkey PRIMARY KEY (order_id, line_number)
+    order_id         INTEGER               NOT NULL,
+    line_number      INTEGER               NOT NULL,
+    quantity         INTEGER               NOT NULL,
+    item_description CHARACTER VARYING(50) NOT NULL,
+    CONSTRAINT order_detail_pkey PRIMARY KEY (order_id, line_number)
 )
 WITH (
-  OIDS=FALSE
+    OIDS= FALSE
 );
 
 ALTER TABLE mbtest.order_detail OWNER TO postgres;
 
 CREATE TABLE mbtest.order_header
 (
-  order_id integer NOT NULL,
-  cust_name character varying(50) NOT NULL,
-  CONSTRAINT order_header_pkey PRIMARY KEY (order_id)
+    order_id  INTEGER               NOT NULL,
+    cust_name CHARACTER VARYING(50) NOT NULL,
+    CONSTRAINT order_header_pkey PRIMARY KEY (order_id)
 )
 WITH (
-  OIDS=FALSE
+    OIDS= FALSE
 );
 
 ALTER TABLE mbtest.order_header OWNER TO postgres;
 
 INSERT INTO mbtest.order_header(order_id, cust_name)
-  VALUES (1, 'Fred');
+VALUES (1, 'Fred');
 INSERT INTO mbtest.order_header(order_id, cust_name)
-  VALUES (2, 'Barney');
+VALUES (2, 'Barney');
 
 INSERT INTO mbtest.order_detail(order_id, line_number, quantity, item_description)
-  VALUES (1, 1, 1, 'Pen');
+VALUES (1, 1, 1, 'Pen');
 INSERT INTO mbtest.order_detail(order_id, line_number, quantity, item_description)
-  VALUES (1, 2, 3, 'Pencil');
+VALUES (1, 2, 3, 'Pencil');
 INSERT INTO mbtest.order_detail(order_id, line_number, quantity, item_description)
-  VALUES (1, 3, 2, 'Notepad');
+VALUES (1, 3, 2, 'Notepad');
 INSERT INTO mbtest.order_detail(order_id, line_number, quantity, item_description)
-  VALUES (2, 1, 1, 'Compass');
+VALUES (2, 1, 1, 'Compass');
 INSERT INTO mbtest.order_detail(order_id, line_number, quantity, item_description)
-  VALUES (2, 2, 1, 'Protractor');
+VALUES (2, 2, 1, 'Protractor');
 INSERT INTO mbtest.order_detail(order_id, line_number, quantity, item_description)
-  VALUES (2, 3, 2, 'Pencil');
+VALUES (2, 3, 2, 'Pencil');
 
 -- @DELIMITER |
 
-CREATE OR REPLACE FUNCTION mbtest.get_order(order_number integer)
-  RETURNS refcursor AS
-$BODY$
-DECLARE
-  mycurs refcursor;
-BEGIN
-  open mycurs for select a.*, b.*
-  from mbtest.order_header a join mbtest.order_detail b
-    on a.order_id = b.order_id
-  where a.order_id = ORDER_NUMBER;
-  return mycurs;
+CREATE
+OR
+REPLACE FUNCTION mbtest.get_order(order_number INTEGER)
+    RETURNS refcursor AS
+    $BODY$
+    DECLARE
+    mycurs refcursor;
+BEGIN OPEN mycurs FOR
+SELECT a.*, b.*
+FROM mbtest.order_header a
+         JOIN mbtest.order_detail b
+              ON a.order_id = b.order_id
+WHERE a.order_id = ORDER_NUMBER;
+RETURN mycurs;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100 |
 
 
-CREATE OR REPLACE FUNCTION mbtest.get_order_out_params(
-  order_number integer,
-  detail_count out integer,
-  header_curs out refcursor
-) AS $BODY$
-DECLARE
-  order_exists boolean;
+CREATE OR
+REPLACE FUNCTION mbtest.get_order_out_params(order_number INTEGER,
+                                             detail_count OUT INTEGER,
+                                             header_curs OUT refcursor) AS $BODY$
+    DECLARE
+    order_exists BOOLEAN;
 BEGIN
-  select order_id is not null into order_exists from mbtest.order_header where order_id = ORDER_NUMBER;
-  if order_exists then
-    open header_curs for select * from mbtest.order_header where order_id = ORDER_NUMBER;
-  end if;
-  select count(*) into detail_count from mbtest.order_detail where order_id = ORDER_NUMBER;
+SELECT order_id IS NOT NULL
+INTO order_exists
+FROM mbtest.order_header
+WHERE order_id = ORDER_NUMBER;
+IF order_exists THEN
+    OPEN header_curs FOR
+SELECT *
+FROM mbtest.order_header
+WHERE order_id = ORDER_NUMBER;
+END IF;
+SELECT COUNT(*)
+INTO detail_count
+FROM mbtest.order_detail
+WHERE order_id = ORDER_NUMBER;
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -101,4 +112,4 @@ $BODY$
 
 -- @DELIMITER ;
 
-ALTER FUNCTION mbtest.get_order(integer) OWNER TO postgres;
+ALTER FUNCTION mbtest.get_order(INTEGER) OWNER TO postgres;

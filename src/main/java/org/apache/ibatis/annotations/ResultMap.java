@@ -15,11 +15,7 @@
  */
 package org.apache.ibatis.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * The annotation that specify result map names to use.
@@ -50,17 +46,15 @@ import java.lang.annotation.Target;
  * </mapper>
  * }
  * </pre>
- *
  * @author Jeff Butler
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ResultMap {
-  /**
-   * Returns result map names to use.
-   *
-   * @return result map names
-   */
-  String[] value();
+    /**
+     * Returns result map names to use.
+     * @return result map names
+     */
+    String[] value();
 }

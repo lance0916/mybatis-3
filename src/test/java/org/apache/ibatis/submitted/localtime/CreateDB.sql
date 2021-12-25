@@ -14,12 +14,13 @@
 --    limitations under the License.
 --
 
-drop table records if exists;
+DROP TABLE records IF EXISTS;
 
-create table records (
-  id int,
-  t time(9)
+CREATE TABLE records
+(
+    id INT,
+    t  TIME(9)
 );
 
-insert into records (id, t) values
-(1, '11:22:33.123456789');
+INSERT INTO records (id, t)
+VALUES (1, '11:22:33.123456789');

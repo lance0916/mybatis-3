@@ -19,14 +19,14 @@ import org.apache.ibatis.annotations.Select;
 
 public interface Mapper {
 
-  @Select("select * from users")
-  User[] getUsers();
+    @Select("SELECT * FROM users")
+    User[] getUsers();
 
-  User[] getUsersXml();
+    User[] getUsersXml();
 
-  @Select("select id from users")
-  Integer[] getUserIds();
+    @Select("SELECT id FROM users")
+    Integer[] getUserIds();
 
-  @Select("select id from users")
-  int[] getUserIdsPrimitive();
+    @Select("SELECT id FROM users")
+    int[] getUserIdsPrimitive();
 }

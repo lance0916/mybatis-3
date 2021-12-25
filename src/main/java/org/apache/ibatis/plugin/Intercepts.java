@@ -15,11 +15,7 @@
  */
 package org.apache.ibatis.plugin;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * The annotation that specify target methods to intercept.
@@ -46,11 +42,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Intercepts {
-  /**
-   * Returns method signatures to intercept.
-   *
-   * @return method signatures
-   */
-  Signature[] value();
+    /**
+     * Returns method signatures to intercept.
+     * @return method signatures
+     */
+    Signature[] value();
 }
 

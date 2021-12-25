@@ -19,9 +19,9 @@ import org.apache.ibatis.annotations.Select;
 
 public interface ParentMapper extends GrandpaMapper {
 
-  User getUserXML();
+    User getUserXML();
 
-  @Select("select * from users where id = 1")
-  User getUserAnnotated();
+    @Select("SELECT * FROM users WHERE id = 1")
+    User getUserAnnotated();
 
 }

@@ -14,23 +14,30 @@
 --    limitations under the License.
 --
 
-drop table users if exists;
-drop table memos if exists;
+DROP TABLE users IF EXISTS;
+DROP TABLE memos IF EXISTS;
 
-create table users (
-  id int,
-  name varchar(20),
-  logical_delete boolean default false
+CREATE TABLE users
+(
+    id             INT,
+    name           VARCHAR(20),
+    logical_delete BOOLEAN DEFAULT FALSE
 );
 
-create table memos (
-   id int,
-   memo varchar(1024),
+CREATE TABLE memos
+(
+    id   INT,
+    memo VARCHAR(1024),
 );
 
-insert into users (id, name) values(1, 'User1');
-insert into users (id, name) values(2, 'User2');
-insert into users (id, name) values(3, 'User3');
-insert into users (id, name, logical_delete) values(4, 'User4', true);
+INSERT INTO users (id, name)
+VALUES (1, 'User1');
+INSERT INTO users (id, name)
+VALUES (2, 'User2');
+INSERT INTO users (id, name)
+VALUES (3, 'User3');
+INSERT INTO users (id, name, logical_delete)
+VALUES (4, 'User4', TRUE);
 
-insert into memos (id, memo) values(1, 'memo1');
+INSERT INTO memos (id, memo)
+VALUES (1, 'memo1');

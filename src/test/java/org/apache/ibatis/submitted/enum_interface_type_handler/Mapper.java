@@ -19,9 +19,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 public interface Mapper {
-  @Select("select * from users where id = #{id}")
-  User getUser(Integer id);
+    @Select("SELECT * FROM users WHERE id = #{id}")
+    User getUser(Integer id);
 
-  @Insert("insert into users (id, color) values (#{id}, #{color})")
-  int insertUser(User user);
+    @Insert("INSERT INTO users (id, color) VALUES (#{id}, #{color})")
+    int insertUser(User user);
 }

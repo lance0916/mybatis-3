@@ -20,15 +20,15 @@ import org.apache.ibatis.annotations.Select;
 
 public interface SubstitutionInAnnotsMapper {
 
-  String getPersonNameByIdWithXml(int id);
+    String getPersonNameByIdWithXml(int id);
 
-  @Select("select firstName from ibtest.names where id=${value}")
-  String getPersonNameByIdWithAnnotsValue(int id);
+    @Select("SELECT firstName FROM ibtest.names WHERE id=${value}")
+    String getPersonNameByIdWithAnnotsValue(int id);
 
-  @Select("select firstName from ibtest.names where id=${_parameter}")
-  String getPersonNameByIdWithAnnotsParameter(int id);
+    @Select("SELECT firstName FROM ibtest.names WHERE id=${_parameter}")
+    String getPersonNameByIdWithAnnotsParameter(int id);
 
-  @Select("select firstName from ibtest.names where id=${named}")
-  String getPersonNameByIdWithAnnotsParamAnnot(@Param("named") int id);
+    @Select("SELECT firstName FROM ibtest.names WHERE id=${named}")
+    String getPersonNameByIdWithAnnotsParamAnnot(@Param("named") int id);
 
 }

@@ -14,12 +14,13 @@
 --    limitations under the License.
 --
 
-drop table records if exists;
+DROP TABLE records IF EXISTS;
 
-create table records (
-  id int,
-  odt timestamp with time zone
+CREATE TABLE records
+(
+    id  INT,
+    odt TIMESTAMP WITH TIME zone
 );
 
-insert into records (id, odt) values
-(1, '2018-01-02 11:22:33.123456000+01:23');
+INSERT INTO records (id, odt)
+VALUES (1, '2018-01-02 11:22:33.123456000+01:23');

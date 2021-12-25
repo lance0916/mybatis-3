@@ -20,13 +20,13 @@ import org.apache.ibatis.annotations.Select;
 
 public interface Mapper {
 
-  @Select("select id, odt, odt ot from records where id = #{id}")
-  Record selectById(Integer id);
+    @Select("SELECT id, odt, odt ot FROM records WHERE id = #{id}")
+    Record selectById(Integer id);
 
-  @Insert("insert into records (id, odt) values (#{id}, #{odt})")
-  int insertOffsetDateTime(Record record);
+    @Insert("INSERT INTO records (id, odt) VALUES (#{id}, #{odt})")
+    int insertOffsetDateTime(Record record);
 
-  @Insert("insert into records (id, odt) values (#{id}, #{ot})")
-  int insertOffsetTime(Record record);
+    @Insert("INSERT INTO records (id, odt) VALUES (#{id}, #{ot})")
+    int insertOffsetTime(Record record);
 
 }

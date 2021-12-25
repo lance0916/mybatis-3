@@ -14,41 +14,44 @@
 --    limitations under the License.
 --
 
-drop table users if exists
+DROP TABLE users IF EXISTS
 go
 
-drop procedure getusers if exists
+DROP PROCEDURE getusers IF EXISTS
 go
 
-create table users (
-  id int,
-  name varchar(20)
+CREATE TABLE users
+(
+    id   INT,
+    name VARCHAR(20)
 )
-go
+    go
 
-create procedure getusers()
-modifies sql data
-dynamic result sets 1
+CREATE PROCEDURE getusers()
+    MODIFIES SQL DATA DYNAMIC result sets 1
 BEGIN ATOMIC
-  declare cur cursor for select * from users order by id;
-  open cur;
+  DECLARE cur CURSOR FOR
+SELECT *
+FROM users
+ORDER BY id;
+OPEN cur;
 END
 go
 
-insert into users (id, name) values(1, 'User1')
-go
+INSERT INTO users (id, name) VALUES (1, 'User1')
+    go
 
-insert into users (id, name) values(2, 'User1')
-go
+INSERT INTO users (id, name) VALUES (2, 'User1')
+    go
 
-insert into users (id, name) values(3, 'User1')
-go
+INSERT INTO users (id, name) VALUES (3, 'User1')
+    go
 
-insert into users (id, name) values(4, 'User1')
-go
+INSERT INTO users (id, name) VALUES (4, 'User1')
+    go
 
-insert into users (id, name) values(5, 'User1')
-go
+INSERT INTO users (id, name) VALUES (5, 'User1')
+    go
 
 
 

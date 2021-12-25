@@ -14,10 +14,11 @@
 --    limitations under the License.
 --
 
-drop table users if exists;
+DROP TABLE users IF EXISTS;
 
-create table users (
-  id int,
-  name varchar(20),
-  nicknames varchar(20) array
+CREATE TABLE users
+(
+    id        INT,
+    name      VARCHAR(20),
+    nicknames VARCHAR(20) array
 );
