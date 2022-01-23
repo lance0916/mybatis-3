@@ -50,7 +50,8 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
     protected BoundSql boundSql;
 
-    protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject,
+                                   RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
         this.configuration = mappedStatement.getConfiguration();
         this.executor = executor;
         this.mappedStatement = mappedStatement;

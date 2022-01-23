@@ -134,7 +134,8 @@ public abstract class BaseExecutor implements Executor {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
+    public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler,
+                             CacheKey key, BoundSql boundSql) throws SQLException {
         ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
         if (closed) {
             throw new ExecutorException("Executor was closed.");
@@ -311,7 +312,8 @@ public abstract class BaseExecutor implements Executor {
         }
     }
 
-    private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
+    private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowBounds rowBounds,
+                                          ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
         List<E> list;
         localCache.putObject(key, EXECUTION_PLACEHOLDER);
         try {

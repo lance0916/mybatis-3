@@ -224,8 +224,7 @@ public class MapperMethod {
         public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
             final String methodName = method.getName();
             final Class<?> declaringClass = method.getDeclaringClass();
-            MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass,
-                    configuration);
+            MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass, configuration);
             if (ms == null) {
                 if (method.getAnnotation(Flush.class) != null) {
                     name = null;
@@ -261,8 +260,7 @@ public class MapperMethod {
             }
             for (Class<?> superInterface : mapperInterface.getInterfaces()) {
                 if (declaringClass.isAssignableFrom(superInterface)) {
-                    MappedStatement ms = resolveMappedStatement(superInterface, methodName,
-                            declaringClass, configuration);
+                    MappedStatement ms = resolveMappedStatement(superInterface, methodName, declaringClass, configuration);
                     if (ms != null) {
                         return ms;
                     }

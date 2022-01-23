@@ -71,6 +71,13 @@ public class SqlSessionFactoryBuilder {
         return build(inputStream, null, properties);
     }
 
+    /**
+     * 构件 SqlSessionFactory
+     * @param inputStream 配置文件
+     * @param environment 使用的环境
+     * @param properties 属性配置
+     * @return factory
+     */
     public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
         try {
             XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);

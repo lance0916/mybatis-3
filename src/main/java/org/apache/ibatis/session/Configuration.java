@@ -134,8 +134,9 @@ public class Configuration {
     protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
 
     protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection")
-            .conflictMessageProducer((savedValue, targetValue) ->
-                    ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
+            .conflictMessageProducer((savedValue, targetValue) -> {
+                return ". please check " + savedValue.getResource() + " and " + targetValue.getResource();
+            });
     protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
     protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
     protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
@@ -631,14 +632,17 @@ public class Configuration {
         return parameterHandler;
     }
 
-    public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,
+    public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement,
+                                                RowBounds rowBounds, ParameterHandler parameterHandler,
                                                 ResultHandler resultHandler, BoundSql boundSql) {
         ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
         resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
         return resultSetHandler;
     }
 
-    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement,
+                                                Object parameterObject, RowBounds rowBounds,
+                                                ResultHandler resultHandler, BoundSql boundSql) {
         StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
         statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
         return statementHandler;
