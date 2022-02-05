@@ -20,9 +20,15 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import javax.sql.DataSource;
 
 /**
+ * 对应的是 xml 中的 environment 标签
+ * 属性有三个：
+ * 1、id
+ * 2、事务工厂
+ * 3、数据库连接池
  * @author Clinton Begin
  */
 public final class Environment {
+
     private final String id;
     private final TransactionFactory transactionFactory;
     private final DataSource dataSource;
@@ -34,10 +40,11 @@ public final class Environment {
         if (transactionFactory == null) {
             throw new IllegalArgumentException("Parameter 'transactionFactory' must not be null");
         }
-        this.id = id;
         if (dataSource == null) {
             throw new IllegalArgumentException("Parameter 'dataSource' must not be null");
         }
+
+        this.id = id;
         this.transactionFactory = transactionFactory;
         this.dataSource = dataSource;
     }
