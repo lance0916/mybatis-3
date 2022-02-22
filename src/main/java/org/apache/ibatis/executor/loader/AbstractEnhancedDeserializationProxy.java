@@ -15,16 +15,15 @@
  */
 package org.apache.ibatis.executor.loader;
 
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyCopier;
 import org.apache.ibatis.reflection.property.PropertyNamer;
-
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -101,6 +100,7 @@ public abstract class AbstractEnhancedDeserializationProxy {
             Map<String, ResultLoaderMap.LoadPair> unloadedProperties,
             ObjectFactory objectFactory,
             List<Class<?>> constructorArgTypes,
-            List<Object> constructorArgs);
+            List<Object> constructorArgs
+    );
 
 }

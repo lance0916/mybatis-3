@@ -30,6 +30,9 @@ import java.util.Properties;
  */
 public class ManagedTransactionFactory implements TransactionFactory {
 
+    /**
+     * 默认是自动关闭连接的
+     */
     private boolean closeConnection = true;
 
     @Override

@@ -51,7 +51,7 @@ public class ResultMap {
     public static class Builder {
         private static final Log log = LogFactory.getLog(Builder.class);
 
-        private ResultMap resultMap = new ResultMap();
+        private final ResultMap resultMap = new ResultMap();
 
         public Builder(Configuration configuration, String id, Class<?> type, List<ResultMapping> resultMappings) {
             this(configuration, id, type, resultMappings, null);
@@ -87,6 +87,7 @@ public class ResultMap {
             for (ResultMapping resultMapping : resultMap.resultMappings) {
                 resultMap.hasNestedQueries = resultMap.hasNestedQueries || resultMapping.getNestedQueryId() != null;
                 resultMap.hasNestedResultMaps = resultMap.hasNestedResultMaps || (resultMapping.getNestedResultMapId() != null && resultMapping.getResultSet() == null);
+
                 final String column = resultMapping.getColumn();
                 if (column != null) {
                     resultMap.mappedColumns.add(column.toUpperCase(Locale.ENGLISH));
@@ -98,6 +99,7 @@ public class ResultMap {
                         }
                     }
                 }
+
                 final String property = resultMapping.getProperty();
                 if (property != null) {
                     resultMap.mappedProperties.add(property);

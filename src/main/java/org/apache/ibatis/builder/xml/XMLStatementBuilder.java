@@ -50,6 +50,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     }
 
     public void parseStatementNode() {
+        // select delete insert update 标签的 id
         String id = context.getStringAttribute("id");
         String databaseId = context.getStringAttribute("databaseId");
 
@@ -57,24 +58,31 @@ public class XMLStatementBuilder extends BaseBuilder {
             return;
         }
 
+        // nodeName = select delete insert update
         String nodeName = context.getNode().getNodeName();
         SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
         boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
+
+        // 获取属性
         boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
         boolean useCache = context.getBooleanAttribute("useCache", isSelect);
         boolean resultOrdered = context.getBooleanAttribute("resultOrdered", false);
 
+        // 先解析 include 标签
         // Include Fragments before parsing
         XMLIncludeTransformer includeParser = new XMLIncludeTransformer(configuration, builderAssistant);
         includeParser.applyIncludes(context.getNode());
 
+        // 参数类型
         String parameterType = context.getStringAttribute("parameterType");
         Class<?> parameterTypeClass = resolveClass(parameterType);
 
+        // Driver
         String lang = context.getStringAttribute("lang");
         LanguageDriver langDriver = getLanguageDriver(lang);
 
         // Parse selectKey after includes and remove them.
+        // 解析 SelectKey 标签
         processSelectKeyNodes(id, parameterTypeClass, langDriver);
 
         // Parse the SQL (pre: <selectKey> and <include> were parsed and removed)
@@ -150,16 +158,20 @@ public class XMLStatementBuilder extends BaseBuilder {
         String resultMap = null;
         ResultSetType resultSetTypeEnum = null;
 
+        // 解析 SQL
         SqlSource sqlSource = langDriver.createSqlSource(configuration, nodeToHandle, parameterTypeClass);
         SqlCommandType sqlCommandType = SqlCommandType.SELECT;
 
+        // 添加到 mappedStatement
         builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,
                 fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass,
                 resultSetTypeEnum, flushCache, useCache, resultOrdered,
                 keyGenerator, keyProperty, keyColumn, databaseId, langDriver, null);
 
+        // 将 id 加上空间前缀
         id = builderAssistant.applyCurrentNamespace(id, false);
 
+        // 添加进去
         MappedStatement keyStatement = configuration.getMappedStatement(id, false);
         configuration.addKeyGenerator(id, new SelectKeyGenerator(keyStatement, executeBefore));
     }

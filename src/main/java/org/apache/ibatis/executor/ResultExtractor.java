@@ -36,13 +36,18 @@ public class ResultExtractor {
 
     public Object extractObjectFromList(List<Object> list, Class<?> targetType) {
         Object value = null;
+
         if (targetType != null && targetType.isAssignableFrom(list.getClass())) {
+            // 返回值类型是 List 的子类
             value = list;
         } else if (targetType != null && objectFactory.isCollection(targetType)) {
+            // 创建一个集合类对象
             value = objectFactory.create(targetType);
+            // 使用集合类的公共方法，将元素添加进去
             MetaObject metaObject = configuration.newMetaObject(value);
             metaObject.addAll(list);
         } else if (targetType != null && targetType.isArray()) {
+            // 是数组
             Class<?> arrayComponentType = targetType.getComponentType();
             Object array = Array.newInstance(arrayComponentType, list.size());
             if (arrayComponentType.isPrimitive()) {
@@ -54,6 +59,7 @@ public class ResultExtractor {
                 value = list.toArray((Object[]) array);
             }
         } else {
+            // 单个元素
             if (list != null && list.size() > 1) {
                 throw new ExecutorException("Statement returned more than one row, where no more than one was expected.");
             } else if (list != null && list.size() == 1) {

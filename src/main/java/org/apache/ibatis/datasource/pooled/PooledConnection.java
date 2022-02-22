@@ -25,6 +25,7 @@ import java.sql.SQLException;
 
 /**
  * @author Clinton Begin
+ * 封装了连接
  */
 class PooledConnection implements InvocationHandler {
 
@@ -214,11 +215,13 @@ class PooledConnection implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String methodName = method.getName();
+        // 是关闭的方法的话，将连接放回连接池
         if (CLOSE.equals(methodName)) {
             dataSource.pushConnection(this);
             return null;
         }
         try {
+            // 如果不是 Object 中的方法，检查连接是否有效
             if (!Object.class.equals(method.getDeclaringClass())) {
                 // issue #579 toString() should never fail
                 // throw an SQLException instead of a Runtime
@@ -231,6 +234,9 @@ class PooledConnection implements InvocationHandler {
 
     }
 
+    /**
+     * 检查连接是否有效
+     */
     private void checkConnection() throws SQLException {
         if (!valid) {
             throw new SQLException("Error accessing PooledConnection. Connection is invalid.");

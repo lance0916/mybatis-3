@@ -24,7 +24,14 @@ import java.net.URL;
  */
 public class ClassLoaderWrapper {
 
+    /**
+     * 默认的
+     */
     ClassLoader defaultClassLoader;
+
+    /**
+     * AppClassLoader
+     */
     ClassLoader systemClassLoader;
 
     ClassLoaderWrapper() {

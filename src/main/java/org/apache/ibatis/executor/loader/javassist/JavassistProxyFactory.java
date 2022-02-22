@@ -62,8 +62,10 @@ public class JavassistProxyFactory implements org.apache.ibatis.executor.loader.
         return EnhancedDeserializationProxyImpl.createProxy(target, unloadedProperties, objectFactory, constructorArgTypes, constructorArgs);
     }
 
+    /**
+     * 创建代理对象
+     */
     static Object crateProxy(Class<?> type, MethodHandler callback, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
-
         ProxyFactory enhancer = new ProxyFactory();
         enhancer.setSuperclass(type);
 

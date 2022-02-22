@@ -78,6 +78,9 @@ import java.util.function.BiFunction;
 
 /**
  * @author Clinton Begin
+ *
+ * 对应的是 MyBatis 的 xml 文件配置
+ * 使用 JavaConfig 配置时，就是配置这个类
  */
 public class Configuration {
 
@@ -163,9 +166,13 @@ public class Configuration {
     }
 
     public Configuration() {
+        // typeAliasRegistry：给类起一个别名，便于进行配置
+
+        // 事务工厂
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
         typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
 
+        // 数据库连接池工厂
         typeAliasRegistry.registerAlias("JNDI", JndiDataSourceFactory.class);
         typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
         typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);

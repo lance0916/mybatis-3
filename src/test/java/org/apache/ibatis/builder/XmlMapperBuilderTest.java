@@ -73,7 +73,8 @@ class XmlMapperBuilderTest {
         builder.parse();
         inputStream.close();
 
-        MappedStatement mappedStatement = configuration.getMappedStatement("selectAuthor");
+//        MappedStatement mappedStatement = configuration.getMappedStatement("selectAuthor");
+        MappedStatement mappedStatement = configuration.getMappedStatement("insertAuthor");
         assertThat(mappedStatement.getResultSetType()).isEqualTo(ResultSetType.SCROLL_INSENSITIVE);
     }
 

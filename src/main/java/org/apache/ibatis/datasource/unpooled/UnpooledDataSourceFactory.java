@@ -37,6 +37,9 @@ public class UnpooledDataSourceFactory implements DataSourceFactory {
         this.dataSource = new UnpooledDataSource();
     }
 
+    /**
+     * 配置数据库连接池的属性
+     */
     @Override
     public void setProperties(Properties properties) {
         Properties driverProperties = new Properties();
@@ -64,6 +67,9 @@ public class UnpooledDataSourceFactory implements DataSourceFactory {
         return dataSource;
     }
 
+    /**
+     * 获取 set 方法的第一个属性类型
+     */
     private Object convertValue(MetaObject metaDataSource, String propertyName, String value) {
         Object convertedValue = value;
         Class<?> targetType = metaDataSource.getSetterType(propertyName);

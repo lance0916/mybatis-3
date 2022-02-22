@@ -32,14 +32,31 @@ import java.sql.SQLException;
  * Ignores commit or rollback requests when autocommit is on.
  * @author Clinton Begin
  * @see JdbcTransactionFactory
+ *
+ * 使用原生 JDBC 实现的事务控制
  */
 public class JdbcTransaction implements Transaction {
 
     private static final Log log = LogFactory.getLog(JdbcTransaction.class);
 
+    /**
+     * 数据库连接
+     */
     protected Connection connection;
+
+    /**
+     * 数据库连接池
+     */
     protected DataSource dataSource;
+
+    /**
+     * 事务级别
+     */
     protected TransactionIsolationLevel level;
+
+    /**
+     * 自动提交事务
+     */
     protected boolean autoCommit;
 
     public JdbcTransaction(DataSource ds, TransactionIsolationLevel desiredLevel, boolean desiredAutoCommit) {
@@ -60,6 +77,10 @@ public class JdbcTransaction implements Transaction {
         return connection;
     }
 
+    /**
+     * 需要判断连接是否不是自动提交
+     * 自动提交事务的数据库连接不受这里的控制
+     */
     @Override
     public void commit() throws SQLException {
         if (connection != null && !connection.getAutoCommit()) {
@@ -70,6 +91,9 @@ public class JdbcTransaction implements Transaction {
         }
     }
 
+    /**
+     * 同样，自动提交事务的数据库连接不受这里的控制
+     */
     @Override
     public void rollback() throws SQLException {
         if (connection != null && !connection.getAutoCommit()) {
@@ -80,6 +104,10 @@ public class JdbcTransaction implements Transaction {
         }
     }
 
+    /**
+     * 重置事务为自动提交并关闭数据库连接
+     * 这样关闭连接的时候，未提交的事务会自动提交
+     */
     @Override
     public void close() throws SQLException {
         if (connection != null) {
@@ -91,6 +119,9 @@ public class JdbcTransaction implements Transaction {
         }
     }
 
+    /**
+     * 设置事务提交方式
+     */
     protected void setDesiredAutoCommit(boolean desiredAutoCommit) {
         try {
             if (connection.getAutoCommit() != desiredAutoCommit) {
@@ -108,6 +139,9 @@ public class JdbcTransaction implements Transaction {
         }
     }
 
+    /**
+     * 设置为自动提交事务
+     */
     protected void resetAutoCommit() {
         try {
             if (!connection.getAutoCommit()) {
@@ -129,17 +163,25 @@ public class JdbcTransaction implements Transaction {
         }
     }
 
+    /**
+     * 从数据库连接池中获取连接
+     */
     protected void openConnection() throws SQLException {
         if (log.isDebugEnabled()) {
             log.debug("Opening JDBC Connection");
         }
         connection = dataSource.getConnection();
+
+        // 如果设置了事务隔离界别，就设定值一下
         if (level != null) {
             connection.setTransactionIsolation(level.getLevel());
         }
         setDesiredAutoCommit(autoCommit);
     }
 
+    /**
+     * 默认没有超时时间
+     */
     @Override
     public Integer getTimeout() throws SQLException {
         return null;

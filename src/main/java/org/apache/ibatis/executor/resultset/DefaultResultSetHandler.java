@@ -618,7 +618,8 @@ public class DefaultResultSetHandler implements ResultSetHandler {
             for (ResultMapping propertyMapping : propertyMappings) {
                 // issue gcode #109 && issue #149
                 if (propertyMapping.getNestedQueryId() != null && propertyMapping.isLazy()) {
-                    resultObject = configuration.getProxyFactory().createProxy(resultObject, lazyLoader, configuration, objectFactory, constructorArgTypes, constructorArgs);
+                    resultObject = configuration.getProxyFactory().createProxy(resultObject, lazyLoader, configuration, objectFactory,
+                            constructorArgTypes, constructorArgs);
                     break;
                 }
             }

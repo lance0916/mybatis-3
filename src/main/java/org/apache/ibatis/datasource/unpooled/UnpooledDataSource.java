@@ -30,12 +30,14 @@ import java.util.logging.Logger;
 /**
  * @author Clinton Begin
  * @author Eduardo Macarron
+ *
+ * MyBatis 实现的数据库连接池，但这并不是一个连接池，每次获取连接都是一个新的连接
  */
 public class UnpooledDataSource implements DataSource {
 
     private ClassLoader driverClassLoader;
     private Properties driverProperties;
-    private static Map<String, Driver> registeredDrivers = new ConcurrentHashMap<>();
+    private static final Map<String, Driver> registeredDrivers = new ConcurrentHashMap<>();
 
     private String driver;
     private String url;
@@ -50,6 +52,8 @@ public class UnpooledDataSource implements DataSource {
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
             Driver driver = drivers.nextElement();
+            // key: com.mysql.cj.jdbc.Driver
+            // value: 对应的实例对象
             registeredDrivers.put(driver.getClass().getName(), driver);
         }
     }
@@ -199,26 +203,35 @@ public class UnpooledDataSource implements DataSource {
 
     private Connection doGetConnection(String username, String password) throws SQLException {
         Properties props = new Properties();
+
+        // 将外部的属性放进来
         if (driverProperties != null) {
             props.putAll(driverProperties);
         }
+
+        // 优先使用参数
         if (username != null) {
             props.setProperty("user", username);
         }
         if (password != null) {
             props.setProperty("password", password);
         }
+
         return doGetConnection(props);
     }
 
     private Connection doGetConnection(Properties properties) throws SQLException {
+        // 重新注册 Driver
         initializeDriver();
+        // 获取数据库连接
         Connection connection = DriverManager.getConnection(url, properties);
+        // 配置新的数据库连接
         configureConnection(connection);
         return connection;
     }
 
     private synchronized void initializeDriver() throws SQLException {
+        // driver 必须是全类名
         if (!registeredDrivers.containsKey(driver)) {
             Class<?> driverType;
             try {
@@ -229,8 +242,11 @@ public class UnpooledDataSource implements DataSource {
                 }
                 // DriverManager requires the driver to be loaded via the system ClassLoader.
                 // http://www.kfu.com/~nsayer/Java/dyn-jdbc.html
+                // 通过系统类加载器重新实例化对象，并封装一下，重新注册？？？
                 Driver driverInstance = (Driver) driverType.getDeclaredConstructor().newInstance();
                 DriverManager.registerDriver(new DriverProxy(driverInstance));
+
+                // 使用新实例替换掉  DriverManager.getDrivers() 返回的实例
                 registeredDrivers.put(driver, driverInstance);
             } catch (Exception e) {
                 throw new SQLException("Error setting driver on UnpooledDataSource. Cause: " + e);
@@ -239,19 +255,25 @@ public class UnpooledDataSource implements DataSource {
     }
 
     private void configureConnection(Connection conn) throws SQLException {
+        // 默认的网络超时时间
         if (defaultNetworkTimeout != null) {
             conn.setNetworkTimeout(Executors.newSingleThreadExecutor(), defaultNetworkTimeout);
         }
+        // 事务自动提交
         if (autoCommit != null && autoCommit != conn.getAutoCommit()) {
             conn.setAutoCommit(autoCommit);
         }
+        // 默认的事务隔离级别
         if (defaultTransactionIsolationLevel != null) {
             conn.setTransactionIsolation(defaultTransactionIsolationLevel);
         }
     }
 
+    /**
+     * 仅仅是封装一下
+     */
     private static class DriverProxy implements Driver {
-        private Driver driver;
+        private final Driver driver;
 
         DriverProxy(Driver d) {
             this.driver = d;
